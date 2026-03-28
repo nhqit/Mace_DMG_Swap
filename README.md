@@ -36,6 +36,12 @@ When toggled, the game log will print either `ENABLED` or `DISABLED`.
 
 This repository is currently configured and tested around the 1.21.1 toolchain. If you want to target later 1.21.x NeoForge builds, additional compatibility work may be required because some client APIs changed between minor versions.
 
+## Download
+
+- Repository: https://github.com/nhqit/Mace-DMG-and-Auto-Swap-Mace
+- Releases page: https://github.com/nhqit/Mace-DMG-and-Auto-Swap-Mace/releases
+- Built jar in repository: `releases/macedmg-1.0.0.jar`
+
 ## Installation
 
 1. Build the mod or download the compiled jar.
