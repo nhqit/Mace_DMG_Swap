@@ -1,61 +1,45 @@
 # MaceDMGSwap
 
-MaceDMGSwap is a clean NeoForge PvP mod for Minecraft 1.21.1 that combines fake-fall mace damage with automatic weapon swapping. It is built for players who want mace-level burst damage without manually switching off a sword or axe every hit.
+MaceDMGSwap is a lightweight NeoForge combat mod for Minecraft 1.21.1.
+It combines two ideas into one fast workflow:
 
-The mod is designed to stay fast, minimal, and practical: no bloated interface, no setup screen, and no extra conditions before it does its job.
+- Wurst-style mace damage spoofing (fake fall packets)
+- Automatic swap from sword or axe to mace and back
 
-## What It Does
+The goal is simple: keep your normal weapon in hand, but still land mace-style burst damage when conditions are met.
 
-When enabled, the mod boosts mace hits by sending a fake-fall packet sequence before the attack. If you are holding a sword or axe and you have a mace in your hotbar, it will automatically:
+## Key Features
 
-1. detect the target,
-2. swap to the mace,
-3. apply the fake-fall sequence,
-4. perform the attack,
-5. swap back to your original slot.
+- Toggleable with a keybind. Default key is `V`
+- Works with sword and axe auto-swap logic
+- Detects mace in hotbar slots 1 to 9
+- Sends Wurst-style fake-fall packet sequence for mace damage boost
+- Instant flow: swap -> fake fall -> hit -> swap back
+- Clean implementation with minimal overhead
+- Small status overlay, no heavy UI
+- PvP-oriented behavior
 
-This gives sword and axe engagements access to mace-style burst damage with a seamless swap flow.
+## Current Behavior
 
-## Highlights
+When the mod is enabled and you attack a living target:
 
-- Toggleable with keybind. Default key: `V`
-- Works with sword and axe
-- Detects mace only in the hotbar, slots `1-9`
-- Automatic StunSlam-style flow when attacking with an axe
-- Instant `swap -> attack -> swap back`
-- No extra conditions or complex setup required
-- Clean and lightweight implementation
-- No unnecessary UI
-- PvP-focused behavior
+1. If you already hold a mace, it applies fake-fall packets before the hit.
+2. If you hold a sword or axe and a mace is in the hotbar, it swaps to mace, applies fake-fall packets at hit timing, attacks, then swaps back.
 
-## Features
+The packet sequence follows the Wurst-style pattern:
 
-- Fake-fall mace damage boost
-- Automatic hotbar mace swap
-- Automatic return to the previous slot after the hit
-- Direct mace support when you are already holding a mace
-- Lightweight HUD status text
-- Client-side keybind toggle
-
-## How It Works
-
-### If You Are Holding a Mace
-
-The mod sends a short fake-fall packet pattern right before the hit so the mace attack gets increased damage.
-
-### If You Are Holding a Sword or Axe
-
-If a mace is found in the hotbar, the mod intercepts the attack input and runs the full swap sequence automatically. The original weapon slot is restored immediately after the hit.
-
-### Hotbar-Only Detection
-
-The mod only looks for a mace in the hotbar. If your mace is not in slots `1-9`, auto-swap will not trigger.
+- `0`
+- `0`
+- `0`
+- `0`
+- `sqrt(500)`
+- `0`
 
 ## Controls
 
-- `V`: Enable or disable MaceDMGSwap
+- `V` toggles MaceDMGSwap on and off
 
-The mod also logs its current state in-game as `ENABLED` or `DISABLED`.
+The mod logs state changes as `ENABLED` and `DISABLED`.
 
 ## Requirements
 
@@ -63,50 +47,41 @@ The mod also logs its current state in-game as `ENABLED` or `DISABLED`.
 - NeoForge 21.1.x
 - Java 21
 
-This repository is currently configured around the 1.21.1 NeoForge toolchain.
-
 ## Download
 
 - Repository: https://github.com/nhqit/Mace_DMG_Swap
-- Releases page: https://github.com/nhqit/Mace_DMG_Swap/releases
-- Download the latest jar from the Releases page.
+- Releases: https://github.com/nhqit/Mace_DMG_Swap/releases
+
+Download the latest jar from the Releases page.
 
 ## Installation
 
-1. Download the mod jar.
-2. Put it in your Minecraft `mods` folder.
-3. Launch Minecraft with NeoForge 1.21.1.
+1. Download the latest jar.
+2. Place it in your Minecraft `mods` folder.
+3. Start Minecraft with NeoForge 1.21.1.
 4. Join a world.
-5. Press `V` to toggle the mod.
+5. Press `V` to enable the mod.
 
-## Usage
+## Quick Usage
 
-### Mace Mode
+Direct mace usage:
 
 1. Hold a mace.
-2. Enable the mod.
-3. Hit a living target.
+2. Attack a living target.
 
-The fake-fall sequence is applied before the attack.
+Auto-swap usage:
 
-### Swap Mode
-
-1. Put a mace in the hotbar.
+1. Put a mace in hotbar slots 1 to 9.
 2. Hold a sword or axe.
-3. Enable the mod.
-4. Attack a living target.
-
-The mod will swap to the mace, hit, and return to your original slot automatically.
+3. Attack a living target.
 
 ## Build From Source
-
-Run:
 
 ```powershell
 .\gradlew.bat build
 ```
 
-The generated artifacts will appear in:
+Build output is generated in:
 
 ```text
 build/libs/
@@ -114,17 +89,16 @@ build/libs/
 
 ## Project Structure
 
-- `src/main/java/com/iamnhq/macedmg/MaceDmgMod.java`: Mod entry point and event registration
-- `src/main/java/com/iamnhq/macedmg/MaceDmgKeyHandler.java`: Keybind toggle logic
-- `src/main/java/com/iamnhq/macedmg/MaceDmgAttackHandler.java`: Fake-fall, target detection, swap handling, and attack scheduling
-- `src/main/java/com/iamnhq/macedmg/MaceDmgOverlay.java`: Minimal HUD status text
+- `src/main/java/com/iamnhq/macedmg/MaceDmgMod.java` mod entry point and event registration
+- `src/main/java/com/iamnhq/macedmg/MaceDmgKeyHandler.java` keybind toggle handling
+- `src/main/java/com/iamnhq/macedmg/MaceDmgAttackHandler.java` fake-fall, swap, and attack timing logic
+- `src/main/java/com/iamnhq/macedmg/MaceDmgOverlay.java` in-game status overlay
 
 ## Notes
 
 - This is a client-side combat mod.
-- Server behavior can vary depending on validation, anti-cheat, or PvP rules.
-- The mod is intentionally minimal and does not include a config GUI.
-- Use this mod only on servers or worlds where this kind of combat assistance is allowed.
+- Behavior may vary across servers due to anti-cheat and movement validation.
+- Use only where this type of mod is allowed.
 
 ## License
 
