@@ -1,4 +1,4 @@
-# MaceDMGSwap
+# Mace DMG Swap
 
 MaceDMGSwap is a small NeoForge client-side mod for Minecraft 1.21.x that boosts mace attacks by simulating fall height and can automatically swap from a sword or axe to a mace for the hit.
 
